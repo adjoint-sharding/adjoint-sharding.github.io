@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="Decoding for Structured Language Models">
-  <meta name="keywords" content="CABS, Structure Language Model, Structured Object Decoding, Function Call, JSON generation">
+        content="Adjoint sharding for very long context training of state space models">
+  <meta name="keywords" content="State-space model, large language modeling, scalable training, adjoint method">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Google tag (gtag.js) -->
@@ -41,14 +41,15 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Confidence-Aware Sub-Structure Beam Search (CABS): Mitigating Hallucination in Structured Data Generation with Large Language Models</h1>
+          <h1 class="title is-1 publication-title">Adjoint sharding for very long context training of state space models</h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              <a href="https://www.linkedin.com/in/chengwei-wei-23675a1b3/">Chengwei Wei</a><sup><span>&#9824;</span></sup>,</span>
-            <span class="author-block">
-              <a href="https://www.amazon.science/author/kee-kiat-koo">Kee Kiat Koo</a></span>,<!--br-->
+              <a href="https://www.linkedin.com/in/xingzi-xu-7b584016a">Xingzi Xu</a><sup><span>&#9824;</span></sup>,</span>
             <span class="author-block">
               <a href="https://www.amazon.science/author/amir-tavanaei">Amir Tavanaei</a>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/kavosh-asadi-029a1780">Kavosh Asadi</a>,
             </span>
             <span class="author-block">
               <a href="https://www.amazon.science/author/karim-bouyarmane">Karim Bouyarmane</a>
@@ -60,7 +61,7 @@
           </div>
 
           <div class="is-size-6 publication-authors">
-            <span class="author-block new-line"><sup><span>&#9824;</span> </sup>University of Southern California, work done during internship at Amazon</span><br>
+            <span class="author-block new-line"><sup><span>&#9824;</span> </sup>Duke University, work done as an applied scientist intern at Amazon</span><br>
           </div>
 
           <div class="column has-text-centered">
@@ -85,32 +86,11 @@
                   <span>PDF</span>
                 </a>
               </span>
-              
-              <span class="link-block">
-                <a href="./static/videos/CABS_LLM_SHORT.mp4" download
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-download"></i>
-                  </span>
-                  <span>MP4</span>
-                </a>
-              </span>
             </div>
 
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-
-<section class="hero is-light">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <video id="teaser" class="responsive-video" autoplay muted playsinline height="100%" controls>
-        <source src="./static/videos/CABS_LLM_SHORT.mp4" type="video/mp4">
-      </video>
     </div>
   </div>
 </section>
@@ -123,7 +103,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Large Language Models (LLMs) have facilitated structured data generation, with applications in domains like tabular data, document databases, product catalogs, etc. However, concerns persist about generation veracity due to incorrect references or hallucinations, necessitating the incorporation of some form of model confidence for mitigation. Existing confidence estimation methods on LLM generations primarily focus on the confidence at the individual token level or the entire output sequence level, limiting their applicability to structured data generation, which consists of an intricate mix of both independent and correlated entries at the sub-structure level. In this paper, we first investigate confidence estimation methods for generated sub-structure-level data. We introduce the concept of Confidence Network that applies on the hidden state of the LLM transformer, as a more targeted estimate than the traditional token conditional probability. We further propose Confidence-Aware sub-structure Beam Search (CABS), a novel decoding method operating at the sub-structure level in structured data generation. CABS enhances the faithfulness of structured data generation by considering confidence scores from the Confidence Network for each sub-structure-level data and iteratively refining the prompts. Results show that CABS outperforms traditional token-level beam search for structured data generation by 16.7% Recall at 90% precision averagely on the problem of product attribute generation.
+            Despite very fast progress, efficiently training large language models (LLMs) in very long contexts remains challenging. Existing methods fall back to training LLMs with short contexts (a maximum of a few thousands tokens in training) and use inference time techniques when evaluating on long contexts (above 1M tokens context window at inference). As opposed to long-context-inference, training on very long context input prompts is quickly limited by GPU memory availability and by the prohibitively long training times it requires on state-of-the-art hardware. Meanwhile, many real-life applications require not only inference but also training/fine-tuning with long context on specific tasks. Such applications include, for example, augmenting the context with various sources of raw reference information for fact extraction, fact summarization, or fact reconciliation tasks. We propose adjoint sharding, a novel technique that comprises sharding gradient calculation during training to reduce memory requirements by orders of magnitude, making training on very long context computationally tractable. Adjoint sharding is based on the adjoint method and computes equivalent gradients to backpropagation. We also propose truncated adjoint sharding to speed up the algorithm while maintaining performance. We provide a distributed version, and a paralleled version of adjoint sharding to further speed up training. Empirical results show the proposed adjoint sharding algorithm reduces memory usage by up to 3X with a 1.27B parameter large language model on 1M context length training. This allows to increase the maximum context length during training or fine-tuning of a 1.27B parameter model from 35K tokens to above 100K tokens on a training infrastructure composed of five AWS P4 instances.
           </p>
         </div>
       </div>
